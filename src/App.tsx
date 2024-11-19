@@ -1,7 +1,9 @@
-import React from "react";
+import PizzaForm from './Components/PizzaForm/PizzaForm.tsx';
 
 const App = () => {
-  return <div></div>;
+  return <div>
+    <PizzaForm />
+  </div>;
 };
 
 export default App;
