@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPizza } from '../../types';
-import { addNewPizza, fetchPizza } from '../thunks/pizzaThunks.ts';
+import { addNewPizza, deletePizza, fetchPizza } from '../thunks/pizzaThunks.ts';
 import { RootState } from '../../app/store.ts';
 
 interface pizzaState {
@@ -8,6 +8,7 @@ interface pizzaState {
   loadings: {
     add: boolean;
     fetching: boolean;
+    delete: boolean;
   }
 }
 
@@ -16,6 +17,7 @@ const initialState: pizzaState = {
   loadings: {
     add: false,
     fetching: false,
+    delete: false,
   },
 }
 
@@ -54,6 +56,18 @@ export const selectAllPizza = (state: RootState) => state.pizza.typesOfPizza;
        .addCase(fetchPizza.rejected, (state) =>  {
          state.loadings.fetching = false;
        })
+
+       .addCase(deletePizza.pending, (state) => {
+         state.loadings.delete = true;
+       })
+       .addCase(deletePizza.fulfilled, (state) => {
+         state.loadings.delete = false;
+       })
+       .addCase(deletePizza.rejected, (state) => {
+         state.loadings.delete = false;
+       })
+
+
 
 
    }

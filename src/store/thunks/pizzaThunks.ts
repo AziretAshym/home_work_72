@@ -4,8 +4,8 @@ import axiosApi from '../../AxiosApi.ts';
 
 export const addNewPizza = createAsyncThunk(
   "pizza/addNewPizza",
-  async (contact: IPizzaForm) => {
-    const response = await axiosApi.post("/pizza.json", contact);
+  async (pizza: IPizzaForm) => {
+    const response = await axiosApi.post("/pizza.json", pizza);
     return response.data;
   },
 );
@@ -26,4 +26,12 @@ export const fetchPizza = createAsyncThunk<IPizza[], void>(
     }
     return [];
   },
+);
+
+export const deletePizza = createAsyncThunk(
+  "pizza/deletePizza",
+  async (pizzaId: string) => {
+    await axiosApi.delete(`/pizza/${pizzaId}.json`);
+    return pizzaId;
+  }
 );

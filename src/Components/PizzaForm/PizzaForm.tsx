@@ -1,7 +1,7 @@
 import { IPizzaForm } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectAddPizzaLoading } from '../../store/slices/pizzaSlice.ts';
-import { addNewPizza } from '../../store/thunks/pizzaThunks.ts';
+import { addNewPizza, fetchPizza } from '../../store/thunks/pizzaThunks.ts';
 import React, { useState } from 'react';
 import Spinner from '../UI/Spinner/Spinner.tsx';
 
@@ -25,6 +25,8 @@ const PizzaForm = () => {
     } else {
       alert('Fill in all fields!');
     }
+    setPizza(initialStateToForm);
+    dispatch(fetchPizza())
   };
 
 

@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
 import { selectAllPizza, selectFetchPizzaLoading } from '../../../store/slices/pizzaSlice.ts';
 import { useEffect } from 'react';
-import { fetchPizza } from '../../../store/thunks/pizzaThunks.ts';
+import { deletePizza, fetchPizza } from '../../../store/thunks/pizzaThunks.ts';
 import Spinner from '../../UI/Spinner/Spinner.tsx';
 
 const AdminHome = () => {
@@ -14,6 +14,11 @@ const AdminHome = () => {
     dispatch(fetchPizza());
   }, [dispatch]);
 
+  const handleDelete = async (id: string) => {
+    await dispatch(deletePizza(id));
+    dispatch(fetchPizza());
+  };
+
   return (
     <>
       <h1 className="text-center mb-5">All types of pizza</h1>
@@ -24,7 +29,7 @@ const AdminHome = () => {
       ) : (
         <>
           {allPizza.length === 0 ? (
-            <p>No pizza</p>
+            <h2 className="text-center">No pizza </h2>
           ) : (
             <>
               {allPizza.map((pizza) => (
@@ -47,7 +52,7 @@ const AdminHome = () => {
                     <p className="mb-0 me-5 fs-5">Price: <strong>{pizza.price}</strong></p>
                     <div className="ms-auto">
                       <button type={"button"} className="btn btn-outline-primary">Edit</button>
-                      <button type={"button"} className="btn btn-outline-danger ms-3">Delete</button>
+                      <button type={"button"} className="btn btn-outline-danger ms-3" onClick={() =>handleDelete(pizza.id)}>Delete</button>
                     </div>
                   </div>
                 </div>
