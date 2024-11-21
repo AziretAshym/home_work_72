@@ -35,3 +35,12 @@ export const deletePizza = createAsyncThunk(
     return pizzaId;
   }
 );
+
+
+export const editPizza = createAsyncThunk(
+  "pizza/editPizza",
+  async ({ id, updatedPizza }: { id: string; updatedPizza: IPizzaForm }) => {
+    await axiosApi.put(`/pizza/${id}.json`, updatedPizza);
+    return { id, updatedPizza };
+  }
+);

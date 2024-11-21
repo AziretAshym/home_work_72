@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPizza } from '../../types';
-import { addNewPizza, deletePizza, fetchPizza } from '../thunks/pizzaThunks.ts';
+import { IPizza, IPizzaForm } from '../../types';
+import { addNewPizza, deletePizza, editPizza, fetchPizza } from '../thunks/pizzaThunks.ts';
 import { RootState } from '../../app/store.ts';
 
 interface pizzaState {
@@ -9,6 +9,7 @@ interface pizzaState {
     add: boolean;
     fetching: boolean;
     delete: boolean;
+    edit: boolean;
   }
 }
 
@@ -18,6 +19,7 @@ const initialState: pizzaState = {
     add: false,
     fetching: false,
     delete: false,
+    edit: false,
   },
 }
 
@@ -28,6 +30,10 @@ export const selectFetchPizzaLoading = (state: RootState) =>
   state.pizza.loadings.fetching;
 
 export const selectAllPizza = (state: RootState) => state.pizza.typesOfPizza;
+
+export const selectPizzaById = (state: RootState, pizzaId: string) => {
+  return state.pizza.typesOfPizza.find((pizza) => pizza.id === pizzaId) || null;
+};
 
 
  const pizzaSlice = createSlice({
@@ -65,6 +71,21 @@ export const selectAllPizza = (state: RootState) => state.pizza.typesOfPizza;
        })
        .addCase(deletePizza.rejected, (state) => {
          state.loadings.delete = false;
+       })
+
+       .addCase(editPizza.pending, (state) => {
+         state.loadings.edit = true;
+       })
+       .addCase(editPizza.fulfilled, (state, action:PayloadAction<{id: string, updatedPizza: IPizzaForm}>) => {
+         state.loadings.edit = false;
+         state.typesOfPizza = state.typesOfPizza.map(pizza =>
+           pizza.id === action.payload.id
+             ? { id: action.payload.id, ...action.payload.updatedPizza }
+             : pizza
+         );
+       })
+       .addCase(editPizza.rejected, (state) => {
+         state.loadings.edit = false;
        })
 
 
