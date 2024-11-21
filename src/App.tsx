@@ -1,7 +1,9 @@
 import PizzaForm from './Components/PizzaForm/PizzaForm.tsx';
-import AdminHome from './/Containers/AdminHome/AdminHome.tsx';
+// import AdminHome from './/Containers/AdminHome/AdminHome.tsx';
 import Navbar from './Components/Navbar/Navbar.tsx';
 import { Route, Routes } from 'react-router-dom';
+import ClientHome from './Containers/ClientHome/ClientHome.tsx';
+import AdminHome from './Containers/AdminHome/AdminHome.tsx';
 
 const App = () => {
   return <>
@@ -9,7 +11,8 @@ const App = () => {
       <Navbar />
     </header>
     <Routes>
-      <Route path="/" element={<AdminHome />} />
+      <Route path="/" element={<ClientHome />} />
+      <Route path="/admin" element={<AdminHome />} />
       <Route path="/add-pizza" element={<PizzaForm />} />
       <Route path="/edit-pizza/:pizzaId" element={<PizzaForm />} />
     </Routes>

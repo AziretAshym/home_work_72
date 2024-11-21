@@ -95,4 +95,3 @@ export const selectPizzaById = (state: RootState, pizzaId: string) => {
  });
 
 export const pizzaReducer = pizzaSlice.reducer;
-export const {} =pizzaSlice.actions;

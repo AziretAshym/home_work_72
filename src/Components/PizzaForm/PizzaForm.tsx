@@ -40,7 +40,7 @@ const PizzaForm = () => {
       } else {
         await dispatch(addNewPizza({...pizza}))
       }
-      navigate('/');
+      navigate('/admin');
     } else {
       alert('Fill in all fields!');
     }

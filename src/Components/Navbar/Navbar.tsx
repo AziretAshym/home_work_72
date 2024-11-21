@@ -7,7 +7,7 @@ const Navbar = () => {
         <div className="container">
           <a className="navbar-brand fs-2">Turtle Pizza</a>
           <div>
-            <NavLink to="/" className="btn btn-outline-primary">Pizzas</NavLink>
+            <NavLink to="/admin" className="btn btn-outline-primary">Pizzas</NavLink>
             <button type="button" className="btn btn-outline-primary ms-4">Orders</button>
           </div>
         </div>
