@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { removeFromCart, clearCart } from '../../store/slices/ordersSlice';
-import { sendOrder } from '../../store/thunks/pizzaThunks';
+import { sendOrder } from '../../store/thunks/orderThunks';
 import './Modal.css';
 
 interface ModalProps {
@@ -11,8 +11,12 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const cartItems = useAppSelector((state) => state.orders.items);
-    const totalPrice = useAppSelector((state) => state.orders.totalPrice);
+
+    const delivery = 150;
+
+    const totalPrice = useAppSelector((state) => state.orders.totalPrice) + delivery;
     const dispatch = useAppDispatch();
+
 
     const handleRemoveFromCart = (pizzaId: string) => {
         dispatch(removeFromCart(pizzaId));
@@ -89,6 +93,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                     </button>
                                 </li>
                             ))}
+                            <li className="d-flex justify-content-between align-items-center mt-5 px-2">
+                                <span className="fw-bold">Delivery</span>
+                                <span className="ms-3">{delivery} som</span>
+                            </li>
                         </ul>
                     )}
                 </div>

@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPizza } from '../../types';
+import { editPizza } from '../thunks/pizzaThunks.ts';
+import { fetchOrders } from '../thunks/orderThunks.ts';
 
 interface CartItem extends IPizza {
   amount: number;
@@ -8,11 +10,13 @@ interface CartItem extends IPizza {
 interface CartState {
   items: CartItem[];
   totalPrice: number;
+  loading: boolean;
 }
 
 const initialState: CartState = {
   items: [],
   totalPrice: 0,
+  loading: false,
 };
 
 const ordersSlice = createSlice({
@@ -49,6 +53,13 @@ const ordersSlice = createSlice({
       state.totalPrice = 0;
     },
   },
+  extraReducers (builder) {
+    builder
+      .addCase(fetchOrders.pending, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {})
+  }
 });
 
 export const { addToCart, removeFromCart, clearCart } = ordersSlice.actions;

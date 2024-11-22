@@ -6,7 +6,7 @@ import { fetchPizza } from '../../store/thunks/pizzaThunks';
 import { IPizza } from '../../types';
 import Spinner from '../../Components/UI/Spinner/Spinner';
 import Modal from '../../Components/Modal/Modal';
-import { sendOrder } from '../../store/thunks/pizzaThunks'
+import { sendOrder } from '../../store/thunks/orderThunks.ts'
 
 const ClientHome = () => {
   const dispatch = useAppDispatch();
