@@ -44,3 +44,18 @@ export const editPizza = createAsyncThunk(
     return { id, updatedPizza };
   }
 );
+
+export const sendOrder = createAsyncThunk(
+  'orders/sendOrder',
+  async (order: any) => {
+    try {
+      const response = await axiosApi.post('/orders.json', order);
+      return response.data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+);
+
+
+

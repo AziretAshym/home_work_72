@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPizza } from '../../types';
 
-interface CartItem {
-  pizza: IPizza;
+interface CartItem extends IPizza {
   amount: number;
 }
 
@@ -11,36 +10,46 @@ interface CartState {
   totalPrice: number;
 }
 
-
 const initialState: CartState = {
   items: [],
   totalPrice: 0,
 };
 
-
-
-const cartSlice = createSlice({
-  name: 'cart',
+const ordersSlice = createSlice({
+  name: 'orders',
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<IPizza>) => {
-      const existingItem = state.items.find(item => item.pizza.id === action.payload.id);
-
-      if (existingItem) {
-        existingItem.amount++;
+      const pizza = action.payload;
+      const existingPizza = state.items.find((item) => item.id === pizza.id);
+      if (existingPizza) {
+        existingPizza.amount += 1;
       } else {
-        state.items.push({ pizza: action.payload, amount: 1 });
+        state.items.push({ ...pizza, amount: 1 });
       }
-
-
-      state.totalPrice = state.items.reduce(
-        (total, item) => total + item.pizza.price * item.amount,
-        0
-      );
+      state.totalPrice += Number(pizza.price);
     },
 
+    removeFromCart: (state, action: PayloadAction<string>) => {
+      const pizzaId = action.payload;
+      const pizzaIndex = state.items.findIndex((item) => item.id === pizzaId);
+      if (pizzaIndex !== -1) {
+        const pizza = state.items[pizzaIndex];
+        state.totalPrice -= Number(pizza.price);
+        if (pizza.amount > 1) {
+          pizza.amount -= 1;
+        } else {
+          state.items.splice(pizzaIndex, 1);
+        }
+      }
+    },
+
+    clearCart: (state) => {
+      state.items = [];
+      state.totalPrice = 0;
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
-export const cartReducer = cartSlice.reducer;
+export const { addToCart, removeFromCart, clearCart } = ordersSlice.actions;
+export const cartReducer = ordersSlice.reducer;

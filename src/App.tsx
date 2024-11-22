@@ -15,6 +15,8 @@ const App = () => {
       <Route path="/admin" element={<AdminHome />} />
       <Route path="/add-pizza" element={<PizzaForm />} />
       <Route path="/edit-pizza/:pizzaId" element={<PizzaForm />} />
+      <Route path="/*" element={<h1 className="text-center">Not found</h1>}/>
+
     </Routes>
   </>;
 };
